@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "rush-skills-plugin",
+  "description": "Rush 平台 skill 发现与发布插件，封装 reskill CLI，预设 Rush registry (https://rush.zhenguanyu.com)。",
+  "owner": {
+    "name": "kanyun-inc"
+  },
+  "plugins": [
+    {
+      "name": "rush-skills",
+      "description": "Discover, install, and publish Rush skills through reskill. Search the Rush registry with natural-language intent and publish new skills with sensible defaults.",
+      "category": "development",
+      "source": "./plugins/rush-skills",
+      "homepage": "https://github.com/kanyun-inc/rush-skills-plugin"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "rush-skills",
+  "description": "Discover, install, and publish Rush skills through reskill. Defaults to the Rush registry at https://rush.zhenguanyu.com.",
+  "version": "0.1.0",
+  "author": {
+    "name": "kanyun-inc"
+  },
+  "homepage": "https://github.com/kanyun-inc/rush-skills-plugin"
+}
