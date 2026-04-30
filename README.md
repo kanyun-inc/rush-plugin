@@ -42,13 +42,13 @@ Both skills default to the Rush registry `https://rush.zhenguanyu.com` and insta
 | `rush-agents-discover` | "Rush 有哪些 agent"、"用 HR 分析 agent"、"call observability agent" — 发现并调用专业 agent，内部走 `agent list/info` + `task create -a <name>` |
 | `rush-mcp-discover` | "Rush 上有哪些 MCP"、"找个能访问 Jira 的 MCP" — 发现 MCP server 和它们的工具 |
 
-**依赖**：本地已安装 `rush-ai` CLI 并完成 `rush-ai auth login`。skill 会自动检查并提示。
+**依赖**：Node.js（提供 `npx`）。所有 skill 内部都通过 `npx -y rush-ai@latest` 调用 CLI，不需要单独 `npm i -g rush-ai`；`npx` 会在第一次运行时下载并缓存。首次使用需运行 `npx -y rush-ai@latest auth login` 完成登录，skill 会自动检查 auth 状态并提示。
 
 ## Upstream
 
 `rush-skills` plugin 里的两个 SKILL.md 复制自内部 `gitlab-ee.zhenguanyu.com:infra/rush-skills`。上游更新时，重新复制 `plugins/rush-skills/skills/*/SKILL.md`，bump `plugins/rush-skills/.claude-plugin/plugin.json` 版本。
 
-`rush-ai` plugin 里的 SKILL.md 参考 `rush-ai skill hand-off` / `rush-ai skill agent-shelf` 的权威文档，聚焦在**触发**而非命令细节。rush-ai CLI 升级时通常不需要改 SKILL.md；仅在增加新子命令 / 改变核心参数时同步。
+`rush-ai` plugin 里的 SKILL.md 参考 `npx -y rush-ai@latest skill hand-off` / `npx -y rush-ai@latest skill agent-shelf` 的权威文档，聚焦在**触发**而非命令细节。所有 skill 命令都走 `npx -y rush-ai@latest`，不依赖本地 `npm i -g rush-ai`。rush-ai CLI 升级时通常不需要改 SKILL.md；仅在增加新子命令 / 改变核心参数时同步。
 
 ## Layout
 
