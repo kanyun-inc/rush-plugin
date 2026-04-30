@@ -1,24 +1,26 @@
-# rush-skills-plugin
+# rush-plugin
 
-Claude Code plugin for discovering, installing, and publishing skills on the Rush skill registry.
-
-This plugin wraps the [reskill](https://github.com/nicepkg/reskill) CLI with Rush-specific defaults (registry URL, Claude Code / Cursor / Codex multi-agent install). It is intended for engineers working inside the Kanyun Rush ecosystem.
+Rush 平台 Claude Code 插件集合。当前包含一个 plugin（`rush-skills`），规划中还会加入项目创建交接等 plugin。
 
 ## Install
 
 ```
-/plugin marketplace add kanyun-inc/rush-skills-plugin
-/plugin install rush-skills@rush-skills-plugin
+/plugin marketplace add kanyun-inc/rush-plugin
+/plugin install rush-skills@rush-plugin
 ```
 
 Or from a local checkout during development:
 
 ```
-/plugin marketplace add /path/to/rush-skills-plugin
-/plugin install rush-skills@rush-skills-plugin
+/plugin marketplace add /path/to/rush-plugin
+/plugin install rush-skills@rush-plugin
 ```
 
-## What you get
+## Plugins
+
+### `rush-skills`
+
+Wraps the [reskill](https://github.com/nicepkg/reskill) CLI with Rush-specific defaults (registry URL, Claude Code / Cursor / Codex multi-agent install).
 
 | Skill | Trigger |
 |-------|---------|
@@ -29,17 +31,17 @@ Both skills default to the Rush registry `https://rush.zhenguanyu.com` and insta
 
 ## Upstream
 
-The skills are copied from the internal Rush skill repo at `gitlab-ee.zhenguanyu.com:infra/rush-skills`. When upstream updates, re-copy the `SKILL.md` files under `plugins/rush-skills/skills/*/SKILL.md` and bump the plugin version in `plugins/rush-skills/.claude-plugin/plugin.json`.
+`rush-skills` plugin 里的两个 SKILL.md 复制自内部 `gitlab-ee.zhenguanyu.com:infra/rush-skills`。上游更新时，重新复制 `plugins/rush-skills/skills/*/SKILL.md`，bump `plugins/rush-skills/.claude-plugin/plugin.json` 版本。
 
 ## Layout
 
 ```
-rush-skills-plugin/
+rush-plugin/
 ├── .claude-plugin/
-│   └── marketplace.json                 # marketplace manifest (self-referencing)
+│   └── marketplace.json                 # marketplace 清单
 ├── plugins/
-│   └── rush-skills/
-│       ├── .claude-plugin/plugin.json   # plugin metadata
+│   └── rush-skills/                     # reskill 封装
+│       ├── .claude-plugin/plugin.json
 │       └── skills/
 │           ├── rush-find-skills/SKILL.md
 │           └── rush-reskill-usage/SKILL.md
