@@ -1,6 +1,6 @@
 ---
 name: rush-create
-description: Activate when the user wants to create, bootstrap, or start a new project from scratch — a landing page, product site, demo, tool, web app, or similar artifact. Triggers include "帮我做个 X"、"做一个 X"、"搭个 X"、"创建项目"、"从零做个 X"、"new project"、"build a landing page"、"spin up a site"、"start a web app". Uses `rush-ai` to create the project on the Rush platform, then clones the generated repo to local (`~/develop/<projectId>`) so the user can keep iterating here. Skip this skill for local edits to an existing repo, or for questions about Rush itself.
+description: Activate when the user wants to create, bootstrap, or start a new project from scratch — a landing page, product site, demo, tool, web app, or similar artifact. Triggers include "帮我做个 X"、"做一个 X"、"搭个 X"、"创建项目"、"从零做个 X"、"new project"、"build a landing page"、"spin up a site"、"start a web app". Uses `rush-ai` to create the project on the Rush platform, then clones the generated repo to local (`~/develop/<projectId>`) so the user can keep iterating here. Skip this skill for local edits to an existing repo, iterating on a task that already has an id (use `rush-task-manage` instead), or questions about Rush itself.
 ---
 
 # Skill: Create a project via Rush, then pull it local

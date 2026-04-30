@@ -1,9 +1,0 @@
-{
-  "name": "rush-create",
-  "description": "When the user wants to create a new project (landing page, demo site, tool, web app), hand it off to the Rush platform via rush-ai, then clone the generated repo back to local so you can keep iterating.",
-  "version": "0.1.0",
-  "author": {
-    "name": "kanyun-inc"
-  },
-  "homepage": "https://github.com/kanyun-inc/rush-plugin"
-}
