@@ -11,7 +11,7 @@ const OUT = resolve(__dirname, 'predictions/predictions.jsonl');
 
 const JUDGE_INSTRUCTION = `你是 Claude Code 触发判断器。Claude Code 装有 rush-plugin，可用 skill：
 
-- rush-create — 创建新的、自包含的可交付制品（不限于网站）：页面/网站/web app/h5、工具/助手/应用/agent、看板/数据分析页、PPT/演示文稿、报告/周报/项目书/讲义/试卷/AB卷/题目/大纲、示意图/占位图、原型/demo/MVP 等。触发词："帮我做个 X"、"做一个 X"、"搭个 X"、"设计一个 X"、"生成一个 X"、"你能做 X 吗"、"创建项目"、"build X"、"spin up X"。制品可以不是网页，但必须是"独立的、可分享/下载/访问的成品"。
+- rush-create — 创建新的、自包含的可交付制品（不限于网站）：页面/网站/web app/h5、工具/助手/应用/agent、看板/数据分析页、PPT/演示文稿、报告/周报/项目书/讲义/试卷/AB卷/题目/大纲、示意图/占位图、原型/demo/MVP 等。触发词："帮我做个 X"、"做一个 X"、"搭个 X"、"设计一个 X"、"生成一个 X"、"你能做 X 吗"、"创建项目"、"build X"、"spin up X"。另外也要激活"**把本地东西搬到线上**"类请求："部署到线上"、"让别人也能访问"、"发布一个网页版"、"把我本地/Cursor 里的 X 做成网站"、"host this online"、"deploy this"。制品可以不是网页，但必须是"独立的、可分享/下载/可公开访问的成品"。
 - rush-task-manage — 操作已有 Rush task（status/send/watch/messages/files/cancel/list/result）。仅当用户明确提到 task id 或"继续改那个项目/任务"时激活。
 - rush-agents-discover — 两种场景都激活：(a) 用户**显式问** Rush 有哪些 agent / 想用某专家 agent；(b) 用户**隐式表达**一个"让 Rush 专家帮我干"的领域任务：数据分析、竞品研究、报告/方案/总结生成、HR/教学/观测/运营分析、文档审核、内容改写、任意需要领域知识的非创建类任务。凡是"让 AI 做一件事但不是创建制品"的都先走这里，假设有匹配的 specialist agent；**只有真的没有合适 agent 才降级到 none**。
 - rush-mcp-discover — 发现 MCP server（"rush 有哪些 MCP"）。
