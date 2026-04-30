@@ -5,7 +5,7 @@ description: Activate when the user wants to operate on an existing Rush task �
 
 # Skill: Manage an existing Rush task
 
-When the user references a task that already exists on the Rush platform (has a task id, or was created earlier in the session), you use `rush-ai task <subcommand>` to inspect, iterate, or clean it up. `rush-ai` authoritative playbook lives at `rush-ai skill hand-off` — read it if you need the full picture.
+When the user references a task that already exists on the Rush platform (has a task id, or was created earlier in the session), you use `npx -y rush-ai@latest task <subcommand>` to inspect, iterate, or clean it up. `rush-ai`'s authoritative playbook lives at `npx -y rush-ai@latest skill hand-off` — read it if you need the full picture. You don't need to install the CLI separately; `npx` resolves and caches it on first run.
 
 ## When to activate
 
@@ -24,10 +24,10 @@ Do NOT activate for:
 ## Auth prereq
 
 ```bash
-rush-ai auth status --json
+npx -y rush-ai@latest auth status --json
 ```
 
-If not authenticated: stop, ask the user to run `rush-ai auth login` (opens browser). Don't attempt anything else — every subcommand here 401s.
+If not authenticated: stop, ask the user to run `npx -y rush-ai@latest auth login` (opens browser). Don't attempt anything else — every subcommand here 401s.
 
 ## Subcommand cheatsheet
 
@@ -37,11 +37,11 @@ Always pass `--json` when you need to parse. Pipe `jq` directly instead of `echo
 
 ```bash
 # Recent tasks, newest first
-rush-ai task list --json --limit 10
+npx -y rush-ai@latest task list --json --limit 10
 
 # Filter by status
-rush-ai task list --json --status running
-rush-ai task list --json --status pending
+npx -y rush-ai@latest task list --json --status running
+npx -y rush-ai@latest task list --json --status pending
 ```
 
 Status filter accepts: `pending`, `running`, `completed`, `failed`, `cancelled`.
@@ -49,7 +49,7 @@ Status filter accepts: `pending`, `running`, `completed`, `failed`, `cancelled`.
 ### Check status
 
 ```bash
-rush-ai task status <id> --json | jq -r '.status'
+npx -y rush-ai@latest task status <id> --json | jq -r '.status'
 ```
 
 Terminal states: `completed`, `failed`, `cancelled`. Response for `web-builder` completed tasks includes `previewUrl` and `gitRepoUrl`.
@@ -57,9 +57,9 @@ Terminal states: `completed`, `failed`, `cancelled`. Response for `web-builder` 
 ### Send a follow-up message (iterate on the same task)
 
 ```bash
-rush-ai task send <id> -p "<what to change>" --json
+npx -y rush-ai@latest task send <id> -p "<what to change>" --json
 # Optional: add skills / MCP to the running agent for this message
-rush-ai task send <id> -p "..." --skills "@kanyun/database" --mcp server-id --json
+npx -y rush-ai@latest task send <id> -p "..." --skills "@kanyun/database" --mcp server-id --json
 ```
 
 This is the right tool for "change the hero section", "add a pricing page", "regenerate with a darker theme". Don't create a new task for tweaks.
@@ -67,7 +67,7 @@ This is the right tool for "change the hero section", "add a pricing page", "reg
 ### Watch execution in real time
 
 ```bash
-rush-ai task watch <id>
+npx -y rush-ai@latest task watch <id>
 ```
 
 Streams verbosely. Use when the user explicitly wants to tail it — otherwise prefer short polls with `task status`.
@@ -75,10 +75,10 @@ Streams verbosely. Use when the user explicitly wants to tail it — otherwise p
 ### View conversation history
 
 ```bash
-rush-ai task messages <id> --json
-rush-ai task messages <id> --last 5 --compact         # short recap
-rush-ai task messages <id> --role assistant --json    # just agent replies
-rush-ai task messages <id> -c <conversation-id> --json # specific conversation
+npx -y rush-ai@latest task messages <id> --json
+npx -y rush-ai@latest task messages <id> --last 5 --compact         # short recap
+npx -y rush-ai@latest task messages <id> --role assistant --json    # just agent replies
+npx -y rush-ai@latest task messages <id> -c <conversation-id> --json # specific conversation
 ```
 
 Use this when the user asks "what did it say" / "what did it do" or when you need to debug a failed task.
@@ -87,15 +87,15 @@ Use this when the user asks "what did it say" / "what did it do" or when you nee
 
 ```bash
 # List all artifact files
-rush-ai task files <id>
+npx -y rush-ai@latest task files <id>
 
 # Filter by category
-rush-ai task files <id> -c code
-rush-ai task files <id> -c image
+npx -y rush-ai@latest task files <id> -c code
+npx -y rush-ai@latest task files <id> -c image
 
 # Download everything or a specific file
-rush-ai task files <id> --download-all -o ./output/
-rush-ai task files <id> --download path/to/file.png -o ./
+npx -y rush-ai@latest task files <id> --download-all -o ./output/
+npx -y rush-ai@latest task files <id> --download path/to/file.png -o ./
 ```
 
 Use when the user wants the generated files but doesn't need the git repo (e.g. just a screenshot, a spreadsheet, a single doc).
@@ -103,7 +103,7 @@ Use when the user wants the generated files but doesn't need the git repo (e.g. 
 ### Get the final result
 
 ```bash
-rush-ai task result <id>
+npx -y rush-ai@latest task result <id>
 ```
 
 Returns the task's final output payload. Useful for non-web-builder agents where the "output" is text / data, not a site.
@@ -111,7 +111,7 @@ Returns the task's final output payload. Useful for non-web-builder agents where
 ### Cancel
 
 ```bash
-rush-ai task cancel <id>
+npx -y rush-ai@latest task cancel <id>
 ```
 
 Use when the user says "算了" / "停掉" / "cancel this" on a running task.
@@ -122,14 +122,14 @@ Use when the user says "算了" / "停掉" / "cancel this" on a running task.
 
 ```bash
 # 1. Find the task id
-rush-ai task list --json --limit 5
+npx -y rush-ai@latest task list --json --limit 5
 # Pick the right id from the list.
 
 # 2. Send follow-up
-rush-ai task send <id> -p "Change the primary button color to #3b82f6 across all pages." --json
+npx -y rush-ai@latest task send <id> -p "Change the primary button color to #3b82f6 across all pages." --json
 
 # 3. Poll
-rush-ai task status <id> --json | jq -r '.status'
+npx -y rush-ai@latest task status <id> --json | jq -r '.status'
 
 # 4. If the user cloned it locally, pull the updates
 cd ~/develop/<projectId> && git pull
@@ -138,15 +138,15 @@ cd ~/develop/<projectId> && git pull
 ### "What did Rush do on task lodig8oknq0r?"
 
 ```bash
-rush-ai task messages lodig8oknq0r --compact --last 20
+npx -y rush-ai@latest task messages lodig8oknq0r --compact --last 20
 ```
 
 ### "Is my pending task done yet?"
 
 ```bash
-rush-ai task list --json --status pending
+npx -y rush-ai@latest task list --json --status pending
 # or if they know the id
-rush-ai task status <id> --json | jq -r '.status'
+npx -y rush-ai@latest task status <id> --json | jq -r '.status'
 ```
 
 ## Anti-patterns

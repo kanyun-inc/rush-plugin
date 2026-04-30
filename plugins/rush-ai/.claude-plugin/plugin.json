@@ -1,7 +1,7 @@
 {
   "name": "rush-ai",
   "description": "Rush 平台全流程交互 — 创建新项目、任务迭代管理、专业 agent 发现、MCP 资源发现。封装 rush-ai CLI，让 Claude Code / Cursor 在合适场景自动用上 Rush。",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "kanyun-inc"
   },
