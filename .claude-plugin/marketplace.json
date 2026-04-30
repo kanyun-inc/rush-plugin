@@ -12,6 +12,13 @@
       "category": "development",
       "source": "./plugins/rush-skills",
       "homepage": "https://github.com/kanyun-inc/rush-plugin"
+    },
+    {
+      "name": "rush-create",
+      "description": "Hand off new-project creation to the Rush platform via rush-ai, then clone the generated repo to local so you can keep iterating.",
+      "category": "development",
+      "source": "./plugins/rush-create",
+      "homepage": "https://github.com/kanyun-inc/rush-plugin"
     }
   ]
 }
