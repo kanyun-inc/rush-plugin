@@ -14,6 +14,13 @@
       "homepage": "https://github.com/kanyun-inc/rush-plugin"
     },
     {
+      "name": "rush-skills-cowork",
+      "description": "Discover, install, and publish Rush skills through reskill for Claude Cowork 3P. Defaults installs to claude-cowork-3p and app-managed skill roots.",
+      "category": "development",
+      "source": "./plugins/rush-skills-cowork",
+      "homepage": "https://github.com/kanyun-inc/rush-plugin"
+    },
+    {
       "name": "rush-ai",
       "description": "Rush 平台全流程交互 — 创建新项目、管理已有任务、发现专业 agent 和 MCP 资源。封装 rush-ai CLI，在合适场景自动激活。",
       "category": "development",

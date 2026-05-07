@@ -1,0 +1,135 @@
+---
+name: rush-cowork-reskill-usage
+description: Use when a Claude Cowork 3P user wants to install, uninstall, update, publish, or manage Rush skills through reskill. Defaults installs to claude-cowork-3p and explains CLAUDE_3P_SKILLS_ROOT for multi-account environments.
+version: 0.1.0
+author: reskill
+tags:
+  - cli
+  - package-manager
+  - skills
+  - reskill
+  - claude-cowork-3p
+---
+
+# reskill Usage for Claude Cowork 3P
+
+> **Default Registry:** `https://rush.zhenguanyu.com/`
+> **Default Agent Target:** `claude-cowork-3p`
+
+`reskill` is a Git-based package manager for AI agent skills. In this plugin, the primary workflow is installing and managing skills for Claude Cowork 3P.
+
+## Execution Rules
+
+1. Always add `-y` to commands that may prompt.
+2. Always include `--registry https://rush.zhenguanyu.com` for registry-based commands unless the user explicitly gives another registry.
+3. For Claude Cowork 3P installs, always include `-a claude-cowork-3p`.
+4. For Claude Cowork 3P app-managed installs, include `--skip-manifest` so project `skills.json` and `skills.lock` are not changed.
+5. Do not suggest Cursor, Claude Code, Codex, or other agent targets unless the user explicitly requests them.
+
+## Core Commands
+
+```bash
+# Search the Rush registry
+npx reskill@latest find "<query>" --json --registry https://rush.zhenguanyu.com
+
+# Install a registry skill into Claude Cowork 3P
+npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# Install from a GitHub source into Claude Cowork 3P
+npx reskill@latest install github:org/repo/path/to/skill@latest -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# List installed skills
+npx reskill@latest list --registry https://rush.zhenguanyu.com
+
+# Show skill details
+npx reskill@latest info <skill> --registry https://rush.zhenguanyu.com
+```
+
+If `reskill` is installed globally, `reskill <command>` can be used instead of `npx reskill@latest <command>`.
+
+## Claude Cowork 3P Skills Root
+
+Claude Cowork 3P stores app-managed skills under:
+
+```text
+Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>/skills
+```
+
+Most users do not need to set an environment variable. Set `CLAUDE_3P_SKILLS_ROOT` when:
+
+- Multiple Claude Cowork 3P org/account roots exist
+- The user wants to install into a specific org/account
+- The active Cowork account cannot be inferred
+- A command fails because the Cowork skills root is ambiguous or missing
+
+The value should be the account root, not the final `skills` directory:
+
+```bash
+CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>" \
+  npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
+
+## Source Formats
+
+```bash
+# Registry package
+npx reskill@latest install @scope/skill-name -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# GitHub shorthand
+npx reskill@latest install github:user/skill@v1.0.0 -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# GitHub subpath in a monorepo
+npx reskill@latest install github:org/repo/skills/planning@latest -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# Full Git URL
+npx reskill@latest install https://github.com/user/skill.git -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# HTTP archive
+npx reskill@latest install https://example.com/skill.tar.gz -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
+
+## Updating and Removing
+
+Use the same Cowork root rules when updating or reinstalling skills. If the user needs to target a specific Cowork account, prefix the command with `CLAUDE_3P_SKILLS_ROOT=...`.
+
+```bash
+# Update all known skills
+npx reskill@latest update --registry https://rush.zhenguanyu.com
+
+# Reinstall a Cowork skill
+npx reskill@latest install <skill> -y -f -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+
+# Uninstall a skill when supported by the installed reskill version
+npx reskill@latest uninstall <skill> -y --registry https://rush.zhenguanyu.com
+```
+
+## Publishing
+
+Publishing uses the Rush registry:
+
+```bash
+# Validate without publishing
+npx reskill@latest publish --dry-run --registry https://rush.zhenguanyu.com
+
+# Publish and skip confirmation
+npx reskill@latest publish -y --registry https://rush.zhenguanyu.com
+```
+
+Authentication:
+
+```bash
+npx reskill@latest login --registry https://rush.zhenguanyu.com --token <token>
+npx reskill@latest whoami --registry https://rush.zhenguanyu.com
+```
+
+Tokens are stored in `~/.reskillrc`. `RESKILL_TOKEN` can be used for CI or one-off authenticated commands.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+| ------- | ------------ | --- |
+| Cowork install target not found | `reskill` cannot locate Claude Cowork 3P | Verify the installed `reskill` version supports `claude-cowork-3p` |
+| Wrong Cowork account receives the skill | Multiple org/account roots exist | Set `CLAUDE_3P_SKILLS_ROOT` to the desired account root |
+| `skills.json` changes unexpectedly | Missing `--skip-manifest` | Re-run with `--skip-manifest` for app-managed Cowork installs |
+| Registry skill not found | Wrong registry or package name | Search with `find` and `--registry https://rush.zhenguanyu.com` |
+| Network or Git fetch failure | Git host connectivity issue | Retry after checking network or existing Git credentials |
