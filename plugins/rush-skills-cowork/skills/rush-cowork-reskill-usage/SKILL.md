@@ -16,7 +16,9 @@ tags:
 > **Default Registry:** `https://rush.zhenguanyu.com/`
 > **Default Agent Target:** `claude-cowork-3p`
 
-`reskill` is a Git-based package manager for AI agent skills. In this plugin, the primary workflow is installing and managing skills for Claude Cowork 3P.
+`reskill` is a Git-based package manager for AI agent skills. In this plugin, the primary workflow is helping Claude Cowork 3P users prepare installs that are executed from a Mac-local Code or terminal environment.
+
+Claude Cowork 3P reads skills from the user's Mac app-managed directory under `~/Library/Application Support/Claude-3p/...`. If this skill is running inside a sandbox, VM, or remote agent environment, that directory may not be writable or visible. In that case, do not run install commands directly and claim the skill is installed. Instead, give the user a copyable command and a short handoff prompt for Code or their Mac terminal.
 
 ## Execution Rules
 
@@ -24,7 +26,30 @@ tags:
 2. Always include `--registry https://rush.zhenguanyu.com` for registry-based commands unless the user explicitly gives another registry.
 3. For Claude Cowork 3P installs, always include `-a claude-cowork-3p`.
 4. For Claude Cowork 3P app-managed installs, include `--skip-manifest` so project `skills.json` and `skills.lock` are not changed.
-5. Do not suggest Cursor, Claude Code, Codex, or other agent targets unless the user explicitly requests them.
+5. If running inside Cowork sandbox/VM/remote agent context, do not run the install command directly. Provide a Code/Mac-terminal handoff instead.
+6. Only run install commands directly when you can verify the current environment has access to the user's Mac `Claude-3p` app-managed skills root.
+7. Keep the install target as `claude-cowork-3p` unless the user explicitly asks for another target. Code or a Mac terminal may be used only as the execution environment.
+
+## Recommended Cowork Install Flow
+
+When a Cowork user asks to install a skill, prepare a handoff like this:
+
+```text
+帮我安装 Skill 到 Claude Cowork 3P:
+
+npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
+
+Tell the user to paste it into Code running on their Mac, or into their Mac terminal. This lets `reskill` write to the real Cowork skills directory instead of a sandbox-local temporary path.
+
+If the user has multiple Cowork org/account roots, include the explicit root:
+
+```text
+帮我安装 Skill 到 Claude Cowork 3P 的指定账号:
+
+CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>" \
+  npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
 
 ## Core Commands
 
@@ -32,10 +57,10 @@ tags:
 # Search the Rush registry
 npx reskill@latest find "<query>" --json --registry https://rush.zhenguanyu.com
 
-# Install a registry skill into Claude Cowork 3P
+# Install a registry skill into Claude Cowork 3P from a Mac-local Code or terminal environment
 npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
 
-# Install from a GitHub source into Claude Cowork 3P
+# Install from a GitHub source into Claude Cowork 3P from a Mac-local Code or terminal environment
 npx reskill@latest install github:org/repo/path/to/skill@latest -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
 
 # List installed skills
@@ -68,6 +93,8 @@ The value should be the account root, not the final `skills` directory:
 CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>" \
   npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
 ```
+
+If Cowork is running the skill from a sandbox that cannot access this Mac path, `CLAUDE_3P_SKILLS_ROOT` cannot fix the install by itself. In that case, hand off the command to Code or the user's Mac terminal.
 
 ## Source Formats
 
@@ -128,6 +155,7 @@ Tokens are stored in `~/.reskillrc`. `RESKILL_TOKEN` can be used for CI or one-o
 
 | Symptom | Likely Cause | Fix |
 | ------- | ------------ | --- |
+| Install succeeds but Cowork cannot see the skill | Command ran in a sandbox/VM and wrote to a temporary local path | Give the user a Code/Mac-terminal handoff command and have it run on the Mac |
 | Cowork install target not found | `reskill` cannot locate Claude Cowork 3P | Verify the installed `reskill` version supports `claude-cowork-3p` |
 | Wrong Cowork account receives the skill | Multiple org/account roots exist | Set `CLAUDE_3P_SKILLS_ROOT` to the desired account root |
 | `skills.json` changes unexpectedly | Missing `--skip-manifest` | Re-run with `--skip-manifest` for app-managed Cowork installs |
