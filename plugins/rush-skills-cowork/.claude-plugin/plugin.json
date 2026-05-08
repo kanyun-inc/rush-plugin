@@ -1,0 +1,9 @@
+{
+  "name": "rush-skills-cowork",
+  "description": "Discover, install, and publish Rush skills through reskill for Claude Cowork 3P. Defaults to claude-cowork-3p and the Rush registry at https://rush.zhenguanyu.com.",
+  "version": "0.1.0",
+  "author": {
+    "name": "kanyun-inc"
+  },
+  "homepage": "https://github.com/kanyun-inc/rush-plugin"
+}

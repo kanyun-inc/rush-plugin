@@ -7,6 +7,7 @@ Rush 平台 Claude Code 插件集合。
 ```
 /plugin marketplace add kanyun-inc/rush-plugin
 /plugin install rush-skills@rush-plugin
+/plugin install rush-skills-cowork@rush-plugin
 /plugin install rush-ai@rush-plugin
 ```
 
@@ -15,6 +16,7 @@ Or from a local checkout during development:
 ```
 /plugin marketplace add /path/to/rush-plugin
 /plugin install rush-skills@rush-plugin
+/plugin install rush-skills-cowork@rush-plugin
 /plugin install rush-ai@rush-plugin
 ```
 
@@ -30,6 +32,23 @@ Wraps the [reskill](https://github.com/nicepkg/reskill) CLI with Rush-specific d
 | `rush-reskill-usage` | User wants to install / uninstall / update / publish skills, or configure `skills.json`. Full reskill CLI reference. |
 
 Both skills default to the Rush registry `https://rush.zhenguanyu.com` and install targets `claude-code cursor codex` unless overridden.
+
+### `rush-skills-cowork`
+
+Claude Cowork 3P focused variant of `rush-skills`. It keeps Rush registry discovery/publishing behavior, but defaults to `claude-cowork-3p` and app-managed skill roots.
+
+| Skill | Trigger |
+|-------|---------|
+| `rush-cowork-find-skills` | Claude Cowork 3P user asks "how do I do X", "find a skill for X", "is there a skill that can…" — searches Rush registry and proposes Cowork installs. |
+| `rush-cowork-reskill-usage` | Claude Cowork 3P user wants to install / uninstall / update / publish skills, or needs `CLAUDE_3P_SKILLS_ROOT` guidance for multi-account environments. |
+
+Cowork installs use:
+
+```
+npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
+
+Set `CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>"` when multiple Cowork org/account roots exist or the target account cannot be inferred.
 
 ### `rush-ai`
 
@@ -62,6 +81,11 @@ rush-plugin/
 │   │   └── skills/
 │   │       ├── rush-find-skills/SKILL.md
 │   │       └── rush-reskill-usage/SKILL.md
+│   ├── rush-skills-cowork/              # reskill for Claude Cowork 3P
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/
+│   │       ├── rush-cowork-find-skills/SKILL.md
+│   │       └── rush-cowork-reskill-usage/SKILL.md
 │   └── rush-ai/                         # rush-ai 全流程封装
 │       ├── .claude-plugin/plugin.json
 │       └── skills/
