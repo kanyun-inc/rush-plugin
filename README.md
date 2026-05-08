@@ -35,7 +35,7 @@ Both skills default to the Rush registry `https://rush.zhenguanyu.com` and insta
 
 ### `rush-skills-cowork`
 
-Claude Cowork 3P focused variant of `rush-skills`. It keeps Rush registry discovery/publishing behavior, but defaults installs to `claude-cowork-3p` and app-managed skill roots.
+Claude Cowork 3P focused variant of `rush-skills`. It keeps Rush registry discovery/publishing behavior, but defaults to `claude-cowork-3p` and app-managed skill roots.
 
 | Skill | Trigger |
 |-------|---------|

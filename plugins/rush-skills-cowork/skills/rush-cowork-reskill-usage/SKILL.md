@@ -1,6 +1,6 @@
 ---
 name: rush-cowork-reskill-usage
-description: Use when a Claude Cowork 3P user wants to install, uninstall, update, publish, or manage Rush skills through reskill. Defaults installs to claude-cowork-3p and explains CLAUDE_3P_SKILLS_ROOT for multi-account environments.
+description: Use when a Claude Cowork 3P user wants to install, uninstall, update, publish, or manage Rush skills through reskill. Defaults to claude-cowork-3p and explains CLAUDE_3P_SKILLS_ROOT for multi-account environments.
 version: 0.1.0
 author: reskill
 tags:
