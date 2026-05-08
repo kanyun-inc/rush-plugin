@@ -24,7 +24,7 @@ This skill helps Claude Cowork 3P users discover and install skills from the Rus
 2. **Use the Rush registry**. Include `--registry https://rush.zhenguanyu.com` unless the user explicitly gives another registry.
 3. **Target Claude Cowork 3P by default**. Install with `-a claude-cowork-3p`.
 4. **Skip project manifests for Cowork installs**. Include `--skip-manifest` so app-managed installs do not modify `skills.json` or `skills.lock`.
-5. **Use a Code/Mac-terminal handoff when running inside Cowork**. Cowork sandbox installs may not reach the user's Mac app-managed skills directory.
+5. **Use a Code/Mac-terminal handoff when running inside Cowork**. Cowork sandbox installs may not reach the user's Mac app-managed skills directory. Tell the user to click the top `Code` tab before pasting the handoff.
 6. **Stay Cowork-focused**. The install target should remain `claude-cowork-3p` unless the user explicitly asks for another target. Code or a Mac terminal may be used only as the execution environment.
 
 ## When to Use This Skill
@@ -98,6 +98,8 @@ npx reskill@latest install @scope/react-best-practices -y -a claude-cowork-3p --
 Ask before installing. If this skill is running inside Cowork or another sandbox/VM, do not run the Cowork install command directly. Give the user a copyable handoff instead:
 
 ```text
+请先点击顶部的 Code，切换到 Code 模式，然后把下面这段发给 Code 执行：
+
 帮我安装 Skill 到 Claude Cowork 3P:
 
 npx reskill@latest install @scope/react-best-practices -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest

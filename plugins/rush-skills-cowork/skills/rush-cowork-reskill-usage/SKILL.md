@@ -26,25 +26,29 @@ Claude Cowork 3P reads skills from the user's Mac app-managed directory under `~
 2. Always include `--registry https://rush.zhenguanyu.com` for registry-based commands unless the user explicitly gives another registry.
 3. For Claude Cowork 3P installs, always include `-a claude-cowork-3p`.
 4. For Claude Cowork 3P app-managed installs, include `--skip-manifest` so project `skills.json` and `skills.lock` are not changed.
-5. If running inside Cowork sandbox/VM/remote agent context, do not run the install command directly. Provide a Code/Mac-terminal handoff instead.
+5. If running inside Cowork sandbox/VM/remote agent context, do not run the install command directly. Tell the user to click the top `Code` tab and provide a Code/Mac-terminal handoff instead.
 6. Only run install commands directly when you can verify the current environment has access to the user's Mac `Claude-3p` app-managed skills root.
 7. Keep the install target as `claude-cowork-3p` unless the user explicitly asks for another target. Code or a Mac terminal may be used only as the execution environment.
 
 ## Recommended Cowork Install Flow
 
-When a Cowork user asks to install a skill, prepare a handoff like this:
+When a Cowork user asks to install a skill from inside Cowork, prepare a handoff like this:
 
 ```text
+请先点击顶部的 Code，切换到 Code 模式，然后把下面这段发给 Code 执行：
+
 帮我安装 Skill 到 Claude Cowork 3P:
 
 npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
 ```
 
-Tell the user to paste it into Code running on their Mac, or into their Mac terminal. This lets `reskill` write to the real Cowork skills directory instead of a sandbox-local temporary path.
+Tell the user that the `Code` tab is the preferred path because it runs on the Mac-local side that can write to the real Cowork skills directory. If Code is unavailable, tell the user to run the command in their Mac terminal instead.
 
 If the user has multiple Cowork org/account roots, include the explicit root:
 
 ```text
+请先点击顶部的 Code，切换到 Code 模式，然后把下面这段发给 Code 执行：
+
 帮我安装 Skill 到 Claude Cowork 3P 的指定账号:
 
 CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>" \
