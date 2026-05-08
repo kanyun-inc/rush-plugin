@@ -24,7 +24,8 @@ This skill helps Claude Cowork 3P users discover and install skills from the Rus
 2. **Use the Rush registry**. Include `--registry https://rush.zhenguanyu.com` unless the user explicitly gives another registry.
 3. **Target Claude Cowork 3P by default**. Install with `-a claude-cowork-3p`.
 4. **Skip project manifests for Cowork installs**. Include `--skip-manifest` so app-managed installs do not modify `skills.json` or `skills.lock`.
-5. **Stay Cowork-focused**. Do not recommend Cursor, Claude Code, Codex, or other agent install targets unless the user explicitly asks for them.
+5. **Use a Code/Mac-terminal handoff when running inside Cowork**. Cowork sandbox installs may not reach the user's Mac app-managed skills directory. Tell the user to click the top `Code` tab before pasting the handoff.
+6. **Stay Cowork-focused**. The install target should remain `claude-cowork-3p` unless the user explicitly asks for another target. Code or a Mac terminal may be used only as the execution environment.
 
 ## When to Use This Skill
 
@@ -80,7 +81,7 @@ For each relevant result, show:
 - Description
 - Version and publisher, if available
 - Registry used
-- Cowork install command
+- Cowork install command and a Code/Mac-terminal handoff prompt
 
 Example:
 
@@ -90,11 +91,21 @@ Found a likely match from the Rush registry:
 @scope/react-best-practices (v1.2.0)
 React and performance optimization guidelines.
 
-Install into Claude Cowork 3P:
+Install into Claude Cowork 3P from Code or a Mac terminal:
 npx reskill@latest install @scope/react-best-practices -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
 ```
 
-Ask before installing. If the user confirms, run the Cowork install command.
+Ask before installing. If this skill is running inside Cowork or another sandbox/VM, do not run the Cowork install command directly. Give the user a copyable handoff instead:
+
+```text
+请先点击顶部的 Code，切换到 Code 模式，然后把下面这段发给 Code 执行：
+
+帮我安装 Skill 到 Claude Cowork 3P:
+
+npx reskill@latest install @scope/react-best-practices -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
+
+Only run the install command yourself when you can verify the current environment has access to the user's Mac `Claude-3p` app-managed skills root.
 
 ## Multi-Account Claude Cowork 3P Installs
 
@@ -119,6 +130,8 @@ CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<or
 ```
 
 Do not append `/skills` to `CLAUDE_3P_SKILLS_ROOT`; it should point at the account root that contains or will contain the `skills` directory.
+
+If the current Cowork environment cannot access the Mac app-managed path, setting this variable in the sandbox will not install the skill where Cowork can read it. Hand off the command to Code or the user's Mac terminal instead.
 
 ## No Results
 

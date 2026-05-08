@@ -48,6 +48,16 @@ Cowork installs use:
 npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
 ```
 
+When this runs inside a Cowork sandbox/VM, it may not be able to write to the Mac app-managed Cowork skills directory. The Cowork plugin should tell users to click the top `Code` tab, then paste a copyable handoff like this:
+
+```
+请先点击顶部的 Code，切换到 Code 模式，然后把下面这段发给 Code 执行：
+
+帮我安装 Skill 到 Claude Cowork 3P:
+
+npx reskill@latest install <skill> -y -a claude-cowork-3p --registry https://rush.zhenguanyu.com --skip-manifest
+```
+
 Set `CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugin/<org>/<account>"` when multiple Cowork org/account roots exist or the target account cannot be inferred.
 
 ### `rush-ai`
