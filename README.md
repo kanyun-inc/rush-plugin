@@ -70,8 +70,9 @@ Set `CLAUDE_3P_SKILLS_ROOT=".../Claude-3p/local-agent-mode-sessions/skills-plugi
 | `rush-task-manage` | "继续改那个项目"、"任务跑完没"、"列最近任务"、"下载产物"、"取消任务" — 已有 task id 的全生命周期管理（status/send/watch/messages/files/cancel/list/result） |
 | `rush-agents-discover` | "Rush 有哪些 agent"、"用 HR 分析 agent"、"call observability agent" — 发现并调用专业 agent，内部走 `agent list/info` + `task create -a <name>` |
 | `rush-mcp-discover` | "Rush 上有哪些 MCP"、"找个能访问 Jira 的 MCP" — 发现 MCP server 和它们的工具 |
+| `rush-login` | "登录 Rush"、"rush 登录"，或任一 rush-ai / reskill 命令报 401 / "Not authenticated" — 自动识别 Claude Code CLI（浏览器 OAuth）/ Cowork 沙箱（手动粘贴 token）两种场景，并顺手把 reskill 也登上。 |
 
-**依赖**：Node.js（提供 `npx`）。所有 skill 内部都通过 `npx -y rush-ai@latest` 调用 CLI，不需要单独 `npm i -g rush-ai`；`npx` 会在第一次运行时下载并缓存。首次使用需运行 `npx -y rush-ai@latest auth login` 完成登录，skill 会自动检查 auth 状态并提示。
+**依赖**：Node.js（提供 `npx`）。所有 skill 内部都通过 `npx -y rush-ai@latest` 调用 CLI，不需要单独 `npm i -g rush-ai`；`npx` 会在第一次运行时下载并缓存。登录由 `rush-login` skill 自动托管（识别 Claude Code CLI 浏览器 OAuth / Cowork 沙箱手动粘贴 token 两种场景），任何 rush-* skill 遇到 401 都会自动引导补登。
 
 ## Upstream
 
@@ -102,6 +103,7 @@ rush-plugin/
 │           ├── rush-create/SKILL.md
 │           ├── rush-task-manage/SKILL.md
 │           ├── rush-agents-discover/SKILL.md
-│           └── rush-mcp-discover/SKILL.md
+│           ├── rush-mcp-discover/SKILL.md
+│           └── rush-login/SKILL.md
 └── README.md
 ```
